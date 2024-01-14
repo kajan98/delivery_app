@@ -46,7 +46,7 @@ class Login extends StatelessWidget {
                     backgroundColor: Colors.deepPurple,
                   ),
                   onPressed: () {
-                    Get.to(HomePage());
+                    ctrl.LoginWithPhone();
                   },
                   child: Text('Login')
               ),

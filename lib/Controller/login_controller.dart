@@ -1,12 +1,16 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delivery_app/Pages/home_page.dart';
 import 'package:delivery_app/model/User/user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:otp_text_field_v2/otp_field_v2.dart';
 
 class LoginController extends GetxController{
+
+  GetStorage box = GetStorage();
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late CollectionReference userCollection;
@@ -19,6 +23,19 @@ class LoginController extends GetxController{
   bool otpFieldShown = false;
   int? otpSend ;
   int? otpEntered;
+  
+  @override
+  void onReady() {
+    Map<String,dynamic>? user = box.read("Login User");
+    if (user != null){
+      Get.to(HomePage());
+    }else{
+
+    }
+    super.onReady();
+  }
+  
+  
   @override
   void onInit() {
     userCollection = firestore.collection('User');
@@ -80,14 +97,17 @@ class LoginController extends GetxController{
     try{
         String phonenumber = loginnumber.text;
       if (phonenumber.isEmpty){
-        var querSnapshot = await userCollection.where('phone', isEqualTo: int.tryParse(phonenumber)).limit(1).get();
+        var querSnapshot = await userCollection.where('number', isEqualTo: int.tryParse(phonenumber)).limit(1).get();
         if (querSnapshot.docs.isNotEmpty) {
           var userDoc = querSnapshot.docs.first;
           var userData = userDoc.data() as Map<String, dynamic>;
+          box.write('Login User', userData);
+          loginnumber.clear();
+          Get.to(HomePage());
     Get.snackbar('Success','Login Success', colorText: Colors.green);
     }
     }else{
-    Get.snackbar('Error','User Not Found Please Registter', colorText: Colors.red);
+    Get.snackbar('Error','User Not Found Please Register', colorText: Colors.red);
     }
 
     }catch(error){
