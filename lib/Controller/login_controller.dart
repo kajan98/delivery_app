@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:delivery_app/Pages/home_page.dart';
+import 'package:delivery_app/Screens/home_page.dart';
+import 'package:delivery_app/Widgets/drawer.dart';
 import 'package:delivery_app/model/User/user.dart';
+import 'package:delivery_app/pages/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -28,7 +30,7 @@ class LoginController extends GetxController{
   void onReady() {
     Map<String,dynamic>? user = box.read("Login User");
     if (user != null){
-      Get.to(HomePage());
+      Get.to(drawer());
     }else{
 
     }

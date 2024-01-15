@@ -1,6 +1,5 @@
 import 'package:delivery_app/Controller/login_controller.dart';
-import 'package:delivery_app/Pages/home_page.dart';
-import 'package:delivery_app/Pages/register_page.dart';
+import 'package:delivery_app/Screens/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

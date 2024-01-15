@@ -1,7 +1,6 @@
 import 'package:delivery_app/Controller/login_controller.dart';
 import 'package:delivery_app/Firebase/firebase_options.dart';
-import 'package:delivery_app/Pages/login_page.dart';
-import 'package:delivery_app/Pages/register_page.dart';
+import 'package:delivery_app/Widgets/drawer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,9 +31,9 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.teal,
+        primarySwatch: Colors.deepPurple,
       ),
-      home:  const Login(),
+      home:  const drawer(),
     );
   }
 }
