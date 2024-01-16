@@ -1,5 +1,7 @@
 import 'package:delivery_app/Controller/login_controller.dart';
 import 'package:delivery_app/Firebase/firebase_options.dart';
+import 'package:delivery_app/Screens/home_page.dart';
+import 'package:delivery_app/Screens/login_page.dart';
 import 'package:delivery_app/Widgets/drawer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +35,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
-      home:  const drawer(),
+      home:  const HomePage(),
     );
   }
 }

@@ -14,7 +14,7 @@ class Login extends StatelessWidget {
           width: double.maxFinite,
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
-              color: Colors.blueGrey[50]
+            color: Colors.blueGrey[50],
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -22,38 +22,53 @@ class Login extends StatelessWidget {
               Text(
                 'Welcome Back!',
                 style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.deepPurple),
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepPurple,
+                ),
               ),
               SizedBox(height: 20),
               TextField(
                 controller: ctrl.loginnumber,
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    prefixIcon: Icon(Icons.phone_android),
-                    labelText: 'Mobile Number',
-                    hintText: 'Enter Your Mobile number'),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  prefixIcon: Icon(Icons.phone_android),
+                  labelText: 'Mobile Number',
+                  hintText: 'Enter Your Mobile Number',
+                ),
+              ),
+              SizedBox(height: 20),
+              TextField(
+                controller: ctrl.password,
+                obscureText: true, // Hide the entered password
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  prefixIcon: Icon(Icons.lock),
+                  labelText: 'Password',
+                  hintText: 'Enter Your Password',
+                ),
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.deepPurple,
-                  ),
-                  onPressed: () {
-                    ctrl.LoginWithPhone();
-                  },
-                  child: Text('Login')
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.deepPurple,
+                ),
+                onPressed: () {
+                  ctrl.LoginWithPhone();
+                },
+                child: Text('Login'),
               ),
               TextButton(
-                  onPressed: () {
-                    Get.to(Register());
-                  },
-                  child: Text('Register New Account')
+                onPressed: () {
+                  Get.to(Register());
+                },
+                child: Text('Register New Account'),
               ),
             ],
           ),

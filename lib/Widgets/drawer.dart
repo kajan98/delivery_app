@@ -74,7 +74,7 @@ class _drawerState extends State<drawer> {
     return HiddenDrawerMenu(
       screens: _screens,
       initPositionSelected: 0,
-      backgroundColorMenu: Colors.lightBlueAccent,
+      backgroundColorMenu: Colors.blueGrey,
       backgroundColorAppBar: Colors.white,
       slidePercent: 40,
       contentCornerRadius: 75,
@@ -83,10 +83,6 @@ class _drawerState extends State<drawer> {
         Icons.menu,
         size: 35,
       ),
-      backgroundMenu:  DecorationImage(
-          image: AssetImage('Assets/12.avif'),
-          fit: BoxFit.cover,
-        ),
     );
   }
 }

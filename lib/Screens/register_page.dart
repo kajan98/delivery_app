@@ -39,6 +39,19 @@ class Register extends StatelessWidget {
               ),
               SizedBox(height: 20),
               TextField(
+                controller: ctrl.password,
+                obscureText: true, // Hide the entered password
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  prefixIcon: Icon(Icons.lock),
+                  labelText: 'Password',
+                  hintText: 'Enter Your Password',
+                ),
+              ),
+              SizedBox(height: 20),
+              TextField(
                 keyboardType: TextInputType.phone,
                 controller: ctrl.registernumber,
                 decoration: InputDecoration(
