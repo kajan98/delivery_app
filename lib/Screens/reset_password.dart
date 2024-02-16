@@ -4,9 +4,15 @@ import 'package:delivery_app/Widgets/otp.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Register extends StatelessWidget {
-  const Register({super.key});
+class resetpassword extends StatefulWidget {
+  const resetpassword({super.key});
 
+  @override
+  State<resetpassword> createState() => _resetpasswordState();
+}
+
+class _resetpasswordState extends State<resetpassword> {
+  bool _isPasswordVisible = false;
   @override
   Widget build(BuildContext context) {
     return GetBuilder<LoginController>(builder: (ctrl) {
@@ -19,35 +25,11 @@ class Register extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Create Your Account!',
+                'Reset your Password',
                 style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Colors.deepPurple),
-              ),
-              SizedBox(height: 20),
-              TextField(
-                controller: ctrl.registername,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    prefixIcon: Icon(Icons.person),
-                    labelText: 'Name',
-                    hintText: 'Enter Your Name'),
-              ),
-              SizedBox(height: 20),
-              TextField(
-                controller: ctrl.password,
-                obscureText: true, // Hide the entered password
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  prefixIcon: Icon(Icons.lock),
-                  labelText: 'Password',
-                  hintText: 'Enter Your Password',
-                ),
               ),
               SizedBox(height: 20),
               TextField(
@@ -62,6 +44,29 @@ class Register extends StatelessWidget {
                     hintText: 'Enter Your Mobile number'),
               ),
               SizedBox(height: 20),
+              TextField(
+                controller: ctrl.password,
+                obscureText: !_isPasswordVisible,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  prefixIcon: Icon(Icons.lock),
+                  labelText: 'New Password',
+                  hintText: 'Enter Your New Password',
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                    child: Icon(
+                      _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
               OtpTextField(otpController:ctrl.otpContoller, vivisble: ctrl.otpFieldShown, onComplete: (otp ) { ctrl.otpEntered = int.tryParse(otp ?? '0000'); },  ),
               SizedBox(height: 20),
               ElevatedButton(
@@ -73,10 +78,10 @@ class Register extends StatelessWidget {
                     if (ctrl.otpFieldShown){
                       ctrl.addUser();
                     }else {
-                      ctrl.sendOTP();
+                      ctrl.sendOTPForResetPassword();
                     }
                   },
-                  child: Text(ctrl.otpFieldShown ? 'Register' : 'Send OTP')),
+                  child: Text(ctrl.otpFieldShown ? 'Reset Password' : 'Send OTP')),
               SizedBox(height: 10),
               TextButton(
                   onPressed: () {
@@ -91,3 +96,5 @@ class Register extends StatelessWidget {
     });
   }
 }
+
+

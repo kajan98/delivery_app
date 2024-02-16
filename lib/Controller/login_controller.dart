@@ -1,7 +1,8 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:delivery_app/Screens/home_page.dart';
+import 'package:delivery_app/Screens/AdminPage.dart';
+import 'package:delivery_app/Screens/HomePage.dart';
 import 'package:delivery_app/model/User/user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,8 @@ class LoginController extends GetxController{
   TextEditingController registernumber = TextEditingController();
   TextEditingController loginnumber = TextEditingController();
   TextEditingController password = TextEditingController();
+  bool isPasswordResetting = false;
+  bool isRegister = false;
 
   OtpFieldControllerV2 otpContoller = OtpFieldControllerV2();
   bool otpFieldShown = false;
@@ -35,7 +38,7 @@ class LoginController extends GetxController{
 
     }
     super.onReady();
-    }
+  }
 
   @override
   void onInit() {
@@ -43,37 +46,107 @@ class LoginController extends GetxController{
     super.onInit();
   }
 
-  addUser() {
+  Future<void> addUser() async {
     try {
-      if(otpSend == otpEntered) {
-        DocumentReference doc = userCollection.doc();
-        User user = User(
-          id: doc.id,
-          name: registername.text,
-          number: int.parse(registernumber.text),
-          password: password.text,
+      // Check if OTP is correct
+      if (otpSend == otpEntered) {
+        // Check if a user with the same phone number already exists
+        QuerySnapshot querySnapshot = await userCollection.where('number', isEqualTo: int.parse(registernumber.text)).get();
 
-        );
-        final userJson = user.toJson();
-        doc.set(userJson);
-        Get.snackbar(
-            'Success', 'User added successfully', colorText: Colors.green,duration: Duration(seconds: 1));
-        registername.clear();
-        registernumber.clear();
-        otpContoller.clear();
-        password.clear();
-      }else{
-        Get.snackbar('Error','OTP is incorrct' ,colorText: Colors.red,duration: Duration(seconds: 1));
+        if (querySnapshot.docs.isNotEmpty) {
+          // User with the same phone number already exists, update password
+          DocumentSnapshot userDoc = querySnapshot.docs.first;
+          String userId = userDoc.id;
+
+          // Define newPassword variable
+          String newPassword = password.text;
+
+          await userCollection.doc(userId).update({
+            'password': newPassword,
+          });
+
+          Get.snackbar('Success', 'Password updated successfully',
+              colorText: Colors.green, duration: Duration(seconds: 2));
+
+          // Clear fields after updating password
+          registername.clear();
+          registernumber.clear();
+          otpContoller.clear();
+          password.clear();
+
+          // Reset flag after password reset
+          isPasswordResetting = false;
+          otpFieldShown = false;
+          otpSend = null;
+          update();
+
+        } else {
+          // User with the same phone number does not exist, proceed to add the new user
+          DocumentReference doc = userCollection.doc();
+          User user = User(
+            id: doc.id,
+            name: registername.text,
+            number: int.parse(registernumber.text),
+            password: password.text,
+          );
+          final userJson = user.toJson();
+          doc.set(userJson);
+          Get.snackbar('Success', 'User added successfully',
+              colorText: Colors.green, duration: Duration(seconds: 2));
+
+          // Clear fields after adding user
+          registername.clear();
+          registernumber.clear();
+          otpContoller.clear();
+          password.clear();
+
+          // Reset flag after password reset
+          isRegister = false;
+          otpFieldShown = false;
+          otpSend = null;
+          update();
+        }
+      } else {
+        Get.snackbar('Error', 'OTP is incorrect',
+            colorText: Colors.red, duration: Duration(seconds: 2));
       }
-    } catch(e){
-      Get.snackbar('Error','Please fill the fields' ,colorText: Colors.red,duration: Duration(seconds: 1));
+    } catch (e) {
+      Get.snackbar('Error', 'Please fill the fields',
+          colorText: Colors.red, duration: Duration(seconds: 2));
       print(e);
     }
-    }
+  }
+
+
+
 
   sendOTP(){
     try {
       if(registername.text.isEmpty || registernumber.text.isEmpty || password.text.isEmpty){
+        Get.snackbar('Error', 'Fill the fields', colorText: Colors.red,duration: Duration(seconds: 1));
+        return;
+      }
+      final random = Random();
+      int otp = 1000 + random.nextInt(9000);
+      print(otp);
+      if (otp != null) {
+        otpFieldShown = true;
+        otpSend=otp;
+        Get.snackbar(
+            'Success', 'OTP sent successfully', colorText: Colors.green,duration: Duration(seconds: 1));
+        print(e);
+      } else {
+        Get.snackbar('Error', 'OTP not found', colorText: Colors.red,duration: Duration(seconds: 1));
+      }
+    }catch (e){
+      print(e);
+    }finally{
+      update();
+    }
+  }
+  sendOTPForResetPassword(){
+    try {
+      if(registernumber.text.isEmpty ){
         Get.snackbar('Error', 'Fill the fields', colorText: Colors.red,duration: Duration(seconds: 1));
         return;
       }
@@ -101,6 +174,8 @@ class LoginController extends GetxController{
       String phonenumber = loginnumber.text;
       String Password = password.text;
 
+
+
       if (!phonenumber.isEmpty && !Password.isEmpty) {
         var querySnapshot = await userCollection
             .where('number', isEqualTo: int.tryParse(phonenumber))
@@ -113,12 +188,21 @@ class LoginController extends GetxController{
 
           String storedPassword = userData['password'];
 
-
           if (storedPassword == Password) {
-            box.write('Login User', userData);
-            loginnumber.clear();
-            password.clear();
-            Get.to(HomePage());
+            // Check if it's admin login
+            if (phonenumber == '0764191135' && Password == '12345') {
+              // Admin login successful
+              Get.to(AdminHomePage());
+              loginnumber.clear();
+              password.clear();
+            } else {
+              // Regular user login successful
+              box.write('Login User', userData);
+              loginnumber.clear();
+              password.clear();
+              Get.to(HomePage());
+            }
+
             Get.snackbar(
               'Success',
               'Login Success',
@@ -158,4 +242,8 @@ class LoginController extends GetxController{
     }
   }
 
+
+
+
 }
+

@@ -1,10 +1,18 @@
 import 'package:delivery_app/Controller/login_controller.dart';
 import 'package:delivery_app/Screens/register_page.dart';
+import 'package:delivery_app/Screens/reset_password.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   const Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +51,7 @@ class Login extends StatelessWidget {
               SizedBox(height: 20),
               TextField(
                 controller: ctrl.password,
-                obscureText: true, // Hide the entered password
+                obscureText: !_isPasswordVisible,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -51,9 +59,30 @@ class Login extends StatelessWidget {
                   prefixIcon: Icon(Icons.lock),
                   labelText: 'Password',
                   hintText: 'Enter Your Password',
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                    child: Icon(
+                      _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    ),
+                  ),
                 ),
               ),
-              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Get.to(resetpassword());
+                    },
+                    child: Text('Reset Your password'),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
