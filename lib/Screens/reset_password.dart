@@ -41,7 +41,7 @@ class _resetpasswordState extends State<resetpassword> {
                     ),
                     prefixIcon: Icon(Icons.phone_android),
                     labelText: 'Mobile Number',
-                    hintText: 'Enter Your Mobile number'),
+                    hintText: '07********'),
               ),
               SizedBox(height: 20),
               TextField(

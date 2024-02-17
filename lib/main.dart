@@ -1,4 +1,5 @@
 import 'package:delivery_app/Screens/login_page.dart';
+import 'package:delivery_app/Screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:delivery_app/Controller/login_controller.dart';
 import 'package:delivery_app/Firebase/firebase_options.dart';
@@ -26,7 +27,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const Login(),
+      home: const SplashScreen(),
     );
   }
 }

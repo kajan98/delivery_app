@@ -45,7 +45,7 @@ class _LoginState extends State<Login> {
                   ),
                   prefixIcon: Icon(Icons.phone_android),
                   labelText: 'Mobile Number',
-                  hintText: 'Enter Your Mobile Number',
+                  hintText: '07********',
                 ),
               ),
               SizedBox(height: 20),

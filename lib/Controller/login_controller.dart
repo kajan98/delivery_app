@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delivery_app/Screens/AdminPage.dart';
 import 'package:delivery_app/Screens/HomePage.dart';
+import 'package:delivery_app/Screens/login_page.dart';
 import 'package:delivery_app/model/User/user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,16 +30,7 @@ class LoginController extends GetxController{
   int? otpEntered;
 
 
-  @override
-  void onReady() {
-    Map<String,dynamic>? user = box.read("Login User");
-    if (user != null){
-      Get.to(HomePage());
-    }else{
 
-    }
-    super.onReady();
-  }
 
   @override
   void onInit() {
@@ -79,6 +71,7 @@ class LoginController extends GetxController{
           otpFieldShown = false;
           otpSend = null;
           update();
+          Get.off(Login());
 
         } else {
           // User with the same phone number does not exist, proceed to add the new user
@@ -105,6 +98,8 @@ class LoginController extends GetxController{
           otpFieldShown = false;
           otpSend = null;
           update();
+
+          Get.off(Login());
         }
       } else {
         Get.snackbar('Error', 'OTP is incorrect',
@@ -123,9 +118,30 @@ class LoginController extends GetxController{
   sendOTP(){
     try {
       if(registername.text.isEmpty || registernumber.text.isEmpty || password.text.isEmpty){
-        Get.snackbar('Error', 'Fill the fields', colorText: Colors.red,duration: Duration(seconds: 1));
+        Get.snackbar('Error', 'Fill the fields', colorText: Colors.red, duration: Duration(seconds: 1));
         return;
       }
+
+      // Check if the phone number starts with '07' and has 10 digits
+      String phoneNumber = registernumber.text.trim();
+      if (!phoneNumber.startsWith('07') || phoneNumber.length != 10) {
+        Get.snackbar('Error', 'Invalid phone number', colorText: Colors.red, duration: Duration(seconds: 1));
+
+        // Clear fields after updating password
+        registernumber.clear();
+        password.clear();
+
+        // Reset flag after password reset
+        isRegister = false;
+        otpFieldShown = false;
+        otpSend = null;
+        update();
+
+      return;
+
+
+      }
+
       final random = Random();
       int otp = 1000 + random.nextInt(9000);
       print(otp);
@@ -133,23 +149,40 @@ class LoginController extends GetxController{
         otpFieldShown = true;
         otpSend=otp;
         Get.snackbar(
-            'Success', 'OTP sent successfully', colorText: Colors.green,duration: Duration(seconds: 1));
-        print(e);
+            'Success', 'OTP sent successfully', colorText: Colors.green, duration: Duration(seconds: 1));
+
+
       } else {
-        Get.snackbar('Error', 'OTP not found', colorText: Colors.red,duration: Duration(seconds: 1));
+        Get.snackbar('Error', 'OTP not found', colorText: Colors.red, duration: Duration(seconds: 1));
       }
-    }catch (e){
+    } catch (e) {
       print(e);
-    }finally{
+    } finally {
       update();
     }
   }
+
   sendOTPForResetPassword(){
     try {
       if(registernumber.text.isEmpty ){
-        Get.snackbar('Error', 'Fill the fields', colorText: Colors.red,duration: Duration(seconds: 1));
+        Get.snackbar('Error', 'Fill the fields', colorText: Colors.red, duration: Duration(seconds: 1));
         return;
       }
+
+      // Check if the phone number starts with '07' and has 10 digits
+      String phoneNumber = registernumber.text.trim();
+      if (!phoneNumber.startsWith('07') || phoneNumber.length != 10) {
+        Get.snackbar('Error', 'Invalid phone number', colorText: Colors.red, duration: Duration(seconds: 1));
+
+        registernumber.clear();
+        password.clear();
+        isPasswordResetting = false;
+        otpFieldShown = false;
+        otpSend = null;
+        update();
+        return;
+      }
+
       final random = Random();
       int otp = 1000 + random.nextInt(9000);
       print(otp);
@@ -157,17 +190,17 @@ class LoginController extends GetxController{
         otpFieldShown = true;
         otpSend=otp;
         Get.snackbar(
-            'Success', 'OTP sent successfully', colorText: Colors.green,duration: Duration(seconds: 1));
-        print(e);
+            'Success', 'OTP sent successfully', colorText: Colors.green, duration: Duration(seconds: 1));
       } else {
-        Get.snackbar('Error', 'OTP not found', colorText: Colors.red,duration: Duration(seconds: 1));
+        Get.snackbar('Error', 'OTP not found', colorText: Colors.red, duration: Duration(seconds: 1));
       }
-    }catch (e){
+    } catch (e) {
       print(e);
-    }finally{
+    } finally {
       update();
     }
   }
+
 
   Future<void> LoginWithPhone() async {
     try {
@@ -241,7 +274,6 @@ class LoginController extends GetxController{
       );
     }
   }
-
 
 
 

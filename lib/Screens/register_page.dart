@@ -4,9 +4,15 @@ import 'package:delivery_app/Widgets/otp.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Register extends StatelessWidget {
+class Register extends StatefulWidget {
   const Register({super.key});
 
+  @override
+  State<Register> createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
+  bool _isPasswordVisible = false;
   @override
   Widget build(BuildContext context) {
     return GetBuilder<LoginController>(builder: (ctrl) {
@@ -39,7 +45,7 @@ class Register extends StatelessWidget {
               SizedBox(height: 20),
               TextField(
                 controller: ctrl.password,
-                obscureText: true, // Hide the entered password
+                obscureText: !_isPasswordVisible,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -47,6 +53,16 @@ class Register extends StatelessWidget {
                   prefixIcon: Icon(Icons.lock),
                   labelText: 'Password',
                   hintText: 'Enter Your Password',
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                    child: Icon(
+                      _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -59,7 +75,7 @@ class Register extends StatelessWidget {
                     ),
                     prefixIcon: Icon(Icons.phone_android),
                     labelText: 'Mobile Number',
-                    hintText: 'Enter Your Mobile number'),
+                    hintText: '07********'),
               ),
               SizedBox(height: 20),
               OtpTextField(otpController:ctrl.otpContoller, vivisble: ctrl.otpFieldShown, onComplete: (otp ) { ctrl.otpEntered = int.tryParse(otp ?? '0000'); },  ),
