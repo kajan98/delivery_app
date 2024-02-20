@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:otp_text_field_v2/otp_field_v2.dart';
 
-class LoginController extends GetxController{
+class Controller extends GetxController{
 
   GetStorage box = GetStorage();
 
@@ -28,7 +28,6 @@ class LoginController extends GetxController{
   bool otpFieldShown = false;
   int? otpSend ;
   int? otpEntered;
-
 
 
 

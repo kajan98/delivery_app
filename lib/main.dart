@@ -1,17 +1,18 @@
-import 'package:delivery_app/Screens/login_page.dart';
-import 'package:delivery_app/Screens/splash_screen.dart';
+import 'package:delivery_app/Screens/HomePage.dart';
 import 'package:flutter/material.dart';
-import 'package:delivery_app/Controller/login_controller.dart';
+import 'package:delivery_app/Controller/controller.dart';
 import 'package:delivery_app/Firebase/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'Screens/onboard.dart';
+
 void main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: firebaseOptions);
-  Get.put(LoginController());
+  Get.put(Controller());
   runApp(const MyApp());
 }
 
@@ -27,7 +28,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      home: HomePage(),
     );
   }
 }

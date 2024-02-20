@@ -46,6 +46,7 @@ dependencies:
   get_storage: ^2.1.1
   otp_text_field_v2: ^1.0.3
   hidden_drawer_menu: ^3.0.1
+  curved_navigation_bar: ^1.0.3
 
 dev_dependencies:
   flutter_test:
@@ -73,11 +74,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - Assets/logo.jpeg
-     - Assets/burger.jpg
-     - Assets/snacks.jpg
-     - Assets/combo.png
-     - Assets/drinks.jpeg
+     - Assets/
 
 
   #   - images/a_dot_ham.jpeg

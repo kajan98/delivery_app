@@ -1,4 +1,4 @@
-import 'package:delivery_app/Controller/login_controller.dart';
+import 'package:delivery_app/Controller/controller.dart';
 import 'package:delivery_app/Screens/login_page.dart';
 import 'package:delivery_app/Widgets/otp.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class _RegisterState extends State<Register> {
   bool _isPasswordVisible = false;
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<LoginController>(builder: (ctrl) {
+    return GetBuilder<Controller>(builder: (ctrl) {
       return Scaffold(
         body: Container(
           width: double.maxFinite,
@@ -29,7 +29,7 @@ class _RegisterState extends State<Register> {
                 style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: Colors.deepPurple),
+                    color: Colors.black),
               ),
               SizedBox(height: 20),
               TextField(
@@ -83,7 +83,7 @@ class _RegisterState extends State<Register> {
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
-                    backgroundColor: Colors.deepPurple,
+                    backgroundColor: Colors.black,
                   ),
                   onPressed: () {
                     if (ctrl.otpFieldShown){
@@ -98,7 +98,7 @@ class _RegisterState extends State<Register> {
                   onPressed: () {
                     Get.to(Login());
                   },
-                  child: Text('Login')
+                  child: Text('Login',style: TextStyle(color: Colors.black),)
               ),
             ],
           ),

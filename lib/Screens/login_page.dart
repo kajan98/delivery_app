@@ -1,4 +1,4 @@
-import 'package:delivery_app/Controller/login_controller.dart';
+import 'package:delivery_app/Controller/controller.dart';
 import 'package:delivery_app/Screens/register_page.dart';
 import 'package:delivery_app/Screens/reset_password.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GetBuilder<LoginController>(builder: (ctrl) {
+      body: GetBuilder<Controller>(builder: (ctrl) {
         return Container(
           width: double.maxFinite,
           padding: EdgeInsets.all(20),
@@ -28,11 +28,11 @@ class _LoginState extends State<Login> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Welcome Back!',
+                'Welcome !',
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple,
+                  color: Colors.black,
                 ),
               ),
               SizedBox(height: 20),
@@ -78,7 +78,7 @@ class _LoginState extends State<Login> {
                     onPressed: () {
                       Get.to(resetpassword());
                     },
-                    child: Text('Reset Your password'),
+                    child: Text('Reset Your password',style: TextStyle(color: Colors.black),),
                   ),
                 ],
               ),
@@ -86,7 +86,7 @@ class _LoginState extends State<Login> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
-                  backgroundColor: Colors.deepPurple,
+                  backgroundColor: Colors.black,
                 ),
                 onPressed: () {
                   ctrl.LoginWithPhone();
@@ -97,7 +97,7 @@ class _LoginState extends State<Login> {
                 onPressed: () {
                   Get.to(Register());
                 },
-                child: Text('Register New Account'),
+                child: Text('Register New Account',style: TextStyle(color: Colors.black),),
               ),
             ],
           ),
